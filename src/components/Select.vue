@@ -41,9 +41,27 @@
           <component :is="childComponents.Deselect" />
         </button>
 
+        <div style="width: 18px;">
+        <slot name="actionButton">
+            <!-- 
+            :disabled="disabled"
+            @click="clearSelection" -->
+          <button
+            v-show="showActionButton"
+            type="button"
+            :title="actionButton.title"
+            class="vs__actionButton"
+            ref="actionButton"
+            @click="execActionButton"
+          >
+          <!-- <component :is="childComponents.ActionButton" /> -->
+            <i :class="actionButton.classIcon"></i>
+          </button>
+        </slot>
         <slot name="open-indicator" v-bind="scope.openIndicator">
           <component :is="childComponents.OpenIndicator" v-if="!noDrop" v-bind="scope.openIndicator.attributes"/>
         </slot>
+        </div>
 
         <slot name="spinner" v-bind="scope.spinner">
           <div class="vs__spinner" v-show="mutableLoading">Loading...</div>
@@ -500,7 +518,12 @@
          * @return {Object}
          */
         default: (map, vm) => map,
-      }
+      },
+
+      actionButton: {
+        type: Object,
+        default: () => {return {icon:null, title:null, action:null}}
+      },
     },
 
     data() {
@@ -671,6 +694,7 @@
         //  they dropdown state will be set in their click handlers
         const ignoredButtons = [
           ...(this.$refs['deselectButtons'] || []),
+          ...([this.$refs['actionButton']] || []),
           ...([this.$refs['clearButton']] || [])
         ];
 
@@ -907,6 +931,11 @@
         if (typeof handlers[e.keyCode] === 'function') {
           return handlers[e.keyCode](e);
         }
+      },
+      execActionButton: function() {
+        if(typeof this.actionButton.action === "function"){
+          this.actionButton.action();
+        } 
       }
     },
 
@@ -1106,6 +1135,10 @@
        */
       showClearButton() {
         return !this.multiple && this.clearable && !this.open && !this.isValueEmpty
+      },
+
+      showActionButton() {
+        return (this.actionButton.icon === null || this.actionButton.action === null )?false:true;
       }
     },
 

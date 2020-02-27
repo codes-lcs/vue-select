@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import Fuse from 'fuse.js';
+// import Fuse from 'fuse.js';
 import debounce from 'lodash/debounce';
 import vSelect from '../../../src/components/Select.vue';
 import countries from '../data/countryCodes';
