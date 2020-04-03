@@ -4,7 +4,7 @@
       <v-select v-bind="config" />
       <hr/>
       Add Action Button
-      <v-select v-model="selected" v-bind="config" :actionButton="actionButton"/>
+      <v-select v-model="selected"  v-bind="config" :actionButton="actionButton" :clearableIcon="false"/>
     </sandbox>
   </div>
 </template>

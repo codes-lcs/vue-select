@@ -38,16 +38,17 @@ $disabled-cursor: $vs-state-disabled-cursor;
   }
 
   .vs__clear {
-    margin-left: 6px;
+    margin-left: 2px;
     margin-right: 0;
   }
-
+  
   .vs__deselect {
     margin-left: 0;
     margin-right: 2px;
   }
-
+  
   .vs__dropdown-menu {
     text-align: right;
   }
+
 }

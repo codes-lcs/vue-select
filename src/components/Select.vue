@@ -28,39 +28,43 @@
         </slot>
       </div>
 
-      <div class="vs__actions" ref="actions">
+      <div class="vs__actions" ref="actions">     
+
         <button
           v-show="showClearButton"
           :disabled="disabled"
           @click="clearSelection"
           type="button"
           class="vs__clear"
-          title="Clear selection"
+          title="Limpar"
           ref="clearButton"
         >
           <component :is="childComponents.Deselect" />
         </button>
 
-        <div style="width: 18px;">
-        <slot name="actionButton">
-            <!-- 
-            :disabled="disabled"
-            @click="clearSelection" -->
-          <button
-            v-show="showActionButton"
-            type="button"
-            :title="actionButton.title"
-            class="vs__actionButton"
-            ref="actionButton"
-            @click="execActionButton"
-          >
-          <!-- <component :is="childComponents.ActionButton" /> -->
-            <i :class="actionButton.classIcon"></i>
-          </button>
-        </slot>
-        <slot name="open-indicator" v-bind="scope.openIndicator">
-          <component :is="childComponents.OpenIndicator" v-if="!noDrop" v-bind="scope.openIndicator.attributes"/>
-        </slot>
+        <div class="vs_actionGroupButton">        
+          
+          <slot name="actionButton">
+              <!-- 
+              :disabled="disabled"
+              @click="clearSelection" -->
+            <button
+              v-show="showActionButton"
+              type="button"
+              :disabled="disabled"
+              :title="actionButton.title"
+              class="vs__actionButton"
+              ref="actionButton"
+              @click="execActionButton"
+            >
+            <!-- <component :is="childComponents.ActionButton" /> -->
+              <i :class="actionButton.classIcon"></i>
+            </button>
+          </slot>
+          
+          <slot name="open-indicator" v-bind="scope.openIndicator">
+            <component :is="childComponents.OpenIndicator" v-if="!noDrop" v-bind="scope.openIndicator.attributes"/>
+          </slot>
         </div>
 
         <slot name="spinner" v-bind="scope.spinner">
@@ -155,6 +159,15 @@
        * @type {Boolean}
        */
       clearable: {
+        type: Boolean,
+        default: true
+      },
+
+      /**
+       * Can the user clear the icon selected property.
+       * @type {Boolean}
+       */
+      clearableIcon: {
         type: Boolean,
         default: true
       },
@@ -1134,7 +1147,7 @@
        * @return {Boolean}
        */
       showClearButton() {
-        return !this.multiple && this.clearable && !this.open && !this.isValueEmpty
+        return !this.multiple && this.clearable && !this.open && !this.isValueEmpty && this.clearableIcon
       },
 
       showActionButton() {
